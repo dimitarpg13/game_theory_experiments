@@ -1,6 +1,8 @@
-# Extensive-Form Game Tree
+# Game Tree of Blackwell's Game G.1.2.1
 
 ## Game Description
+
+This is a two player game involving coin-toss and a number choice and total of four moves.
 
 **Player I** moves first and selects one of two integers **{1, 2}**.  
 The **referee** tosses a coin:
