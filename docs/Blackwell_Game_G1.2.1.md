@@ -1,7 +1,6 @@
 ## two player game involving coin-toss and a number choice and total of four moves (a.k.a known as Blackwell game G.1.2.1)
 
-<!DOCTYPE html>
-<html lang="en">
+<div>
 <head>
   <meta charset="UTF-8">
   <title>Game Tree — Extensive Form</title>
@@ -185,3 +184,4 @@
   </div>
 </body>
 </html>
+</div>
