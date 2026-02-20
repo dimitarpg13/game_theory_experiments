@@ -1,4 +1,4 @@
-# The Blackwell's Game G.1.2.3 (_Parity Selection_)
+# The Blackwell's Game G.1.2.3 (_The Parity Selection Game_)
 
 ## Game Description
 
