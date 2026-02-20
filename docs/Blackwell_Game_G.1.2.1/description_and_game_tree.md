@@ -1,4 +1,4 @@
-# Game Tree of Blackwell's Game G.1.2.1
+# The Blackwell's Game G.1.2.1
 
 ## Game Description
 
