@@ -548,29 +548,39 @@ def demo_x_exploits_mistake(memo: dict[tuple[int, ...], int]):
 
 
 def demo_o_exploits_mistake(memo: dict[tuple[int, ...], int]):
-    """Show how O can exploit a suboptimal first move by X."""
+    """Show how O can exploit a blunder by X to force a win."""
     print(f"\n{'═' * 65}")
-    print(f"  O EXPLOITS A MISTAKE: X plays suboptimally, O capitalizes")
+    print(f"  O EXPLOITS A BLUNDER: X blunders, O forces a win")
     print(f"{'═' * 65}")
 
+    cell_type = {0: "corner", 1: "edge", 2: "corner", 3: "edge",
+                 4: "center", 5: "edge", 6: "corner", 7: "edge", 8: "corner"}
     board = make_board()
 
-    # X plays edge (suboptimal in practice — still draws with perfect play,
-    # but we contrive a second mistake to show O winning)
     board[1] = X_MARK
-    print(f"\n  Move 1: X (MAX) plays cell 1 (edge)")
+    print(f"\n  Move 1: X (MAX) plays cell 1 ({cell_type[1]})")
     print(board_str(board, indent="    "))
 
-    # O takes center (optimal response)
-    board[4] = O_MARK
-    print(f"\n  Move 2: O (MIN) plays cell 4 (center) — optimal")
+    o_cell = optimal_move(board, memo)
+    board[o_cell] = O_MARK
+    print(f"\n  Move 2: O (MIN) plays cell {o_cell} ({cell_type[o_cell]}) — optimal")
     print(board_str(board, indent="    "))
 
-    # X makes a bad move
-    board[2] = X_MARK
+    # Find X's worst move (the one that minimizes V, hoping for V = −1)
+    worst_val = math.inf
+    worst_cell = -1
+    for cell in empty_cells(board):
+        board[cell] = X_MARK
+        val = memo[tuple(board)]
+        board[cell] = EMPTY
+        if val < worst_val:
+            worst_val = val
+            worst_cell = cell
+
+    board[worst_cell] = X_MARK
     val = memo[tuple(board)]
-    print(f"\n  Move 3: X (MAX) plays cell 2 — MISTAKE!")
-    print(f"    Position value is now {val:+d} (O can force a win)")
+    print(f"\n  Move 3: X (MAX) plays cell {worst_cell} ({cell_type[worst_cell]}) — BLUNDER!")
+    print(f"    Position value is now {val:+d} {'(O can force a win)' if val == -1 else ''}")
     print(board_str(board, indent="    "))
 
     move_num = 4
@@ -592,6 +602,8 @@ def demo_o_exploits_mistake(memo: dict[tuple[int, ...], int]):
     tv = terminal_value(board)
     result_str = {1: "X wins!", -1: "O wins!", 0: "Draw!"}
     print(f"\n  ★ Result: {result_str[tv]}")
+    if tv == -1:
+        print(f"  The classic 'opposite edges' blunder lets O create a fork.")
 
 
 def demo_bellman_values_on_board(memo: dict[tuple[int, ...], int]):
